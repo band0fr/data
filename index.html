@@ -15,72 +15,38 @@
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Arial', sans-serif;
             height: 100%;
             overflow-x: hidden;
-            background-color: #000000;
-            color: #9b59b6; /* Purple text */
+            background-color: #1a1a1a;
+            color: #ffffff;
             position: relative;
         }
 
-        /* Snowfall Animation */
-        .snowflakes {
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 999;
-            pointer-events: none;
-        }
-
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: #9b59b6;
-            font-size: 1em;
-            opacity: 0.7;
-            user-select: none;
-            animation: snowfall 10s linear infinite;
-        }
-
-        @keyframes snowfall {
-            0% {
-                transform: translateY(-10px) rotate(0deg);
-                opacity: 0.7;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0.3;
-            }
-        }
-
-        /* Purple Rain Animation */
-        .purple-rain {
+        /* Orange Animation Background */
+        .background-animation {
+            background: linear-gradient(135deg, #ff7e5f, #feb47b);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            height: 100%;
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
+            z-index: -1;
         }
 
-        .raindrop {
-            position: absolute;
-            width: 2px;
-            height: 15px;
-            background-color: #9b59b6;
-            animation: rain 0.5s linear infinite;
-        }
-
-        @keyframes rain {
+        @keyframes gradient-animation {
             0% {
-                transform: translateY(0);
-                opacity: 1;
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
             }
             100% {
-                transform: translateY(100vh);
-                opacity: 0;
+                background-position: 0% 50%;
             }
         }
 
@@ -98,9 +64,9 @@
         h1 {
             font-size: 60px;
             margin-bottom: 15px;
-            color: #9b59b6;
             text-transform: uppercase;
             letter-spacing: 2px;
+            color: #ffffff;
         }
 
         .title-description {
@@ -110,7 +76,7 @@
         }
 
         .button-container button {
-            background-color: #9b59b6;
+            background-color: #ff7e5f;
             color: #ffffff;
             padding: 18px 40px;
             font-size: 18px;
@@ -118,38 +84,38 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.3s;
-            margin-top: 50px; /* Moved button further down */
         }
 
         .button-container button:hover {
-            background-color: #8e44ad;
+            background-color: #feb47b;
             transform: scale(1.05);
         }
 
-        .info-section {
+        /* Info Panel */
+        .info-panel {
             max-width: 1200px;
-            margin-top: -150px; /* Adjusted position closer to top */
+            margin-top: 40px;
             padding: 30px;
             background-color: rgba(0, 0, 0, 0.8);
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
-            color: #ffffff;
             z-index: 10;
             position: relative;
         }
 
-        .info-section h2 {
-            color: #9b59b6;
+        .info-panel h2 {
+            color: #ff7e5f;
             font-size: 36px;
             margin-bottom: 20px;
         }
 
-        .info-section p {
+        .info-panel p {
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 15px;
         }
 
+        /* Menu Bar */
         .menu-bar {
             display: flex;
             justify-content: center;
@@ -175,7 +141,7 @@
         }
 
         .menu-bar a:hover {
-            background-color: #9b59b6;
+            background-color: #ff7e5f;
         }
 
         .menu-bar a:active {
@@ -184,26 +150,15 @@
 
         /* Scroll Effect */
         section {
-            padding-top: 80px; /* Offset for fixed menu */
+            padding-top: 80px;
         }
 
     </style>
 </head>
 <body>
 
-    <!-- Purple Rain Animation -->
-    <div class="purple-rain">
-        <!-- Create multiple drops -->
-        <div class="raindrop" style="left: 10%; animation-duration: 1s;"></div>
-        <div class="raindrop" style="left: 20%; animation-duration: 1.5s;"></div>
-        <div class="raindrop" style="left: 30%; animation-duration: 1s;"></div>
-        <div class="raindrop" style="left: 40%; animation-duration: 1.2s;"></div>
-        <div class="raindrop" style="left: 50%; animation-duration: 1.8s;"></div>
-        <div class="raindrop" style="left: 60%; animation-duration: 1.4s;"></div>
-        <div class="raindrop" style="left: 70%; animation-duration: 1.3s;"></div>
-        <div class="raindrop" style="left: 80%; animation-duration: 1.6s;"></div>
-        <div class="raindrop" style="left: 90%; animation-duration: 1.7s;"></div>
-    </div>
+    <!-- Background Animation -->
+    <div class="background-animation"></div>
 
     <!-- Navigation Bar -->
     <div class="menu-bar">
@@ -214,11 +169,21 @@
     <!-- Main Content -->
     <div id="home" class="container">
         <h1>1v1 BattleGrounds</h1>
-        <p class="title-description">Get ready to fight in an arena with revolvers or knives! Win and earn coins to unlock better weapons.</p>
+        <p class="title-description">You got invited to Play 1v1 Battlegrounds! A game where you fight in a unique arena with revolvers or knives, and earn coins for new weapons after every win.</p>
 
         <div class="button-container">
             <button id="playButton">Play Now</button>
         </div>
     </div>
 
-    <!--
+    <!-- Game Information -->
+    <section id="info">
+        <div class="info-panel">
+            <h2>About 1v1 BattleGrounds</h2>
+            <p>In 1v1 BattleGrounds, you will be facing opponents in an intense 1v1 fight inside an arena. Choose your weapon, whether it’s a revolver or a knife, and battle to earn rewards. With every win, you’ll collect coins that can be used to unlock new, powerful weapons.</p>
+            <p>The goal is to outsmart and outgun your opponent. Can you dominate the arena and become the ultimate champion? Join now and prove your skill in 1v1 battles!</p>
+        </div>
+    </section>
+
+</body>
+</html>
